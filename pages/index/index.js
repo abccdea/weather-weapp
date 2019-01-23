@@ -1,4 +1,8 @@
 Page({
+  data: {
+    nowTemp: '14°',
+    nowWeather: 'cloudy day'
+  },
   onLoad() {
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
