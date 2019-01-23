@@ -1,6 +1,6 @@
 # Udacity - Wechat Mini Program Developer
 
-Welcome to this Nanodegree Program for WeChat Mini Program Developer. in this program, you will master the design, development and testing of WeChat Mini Program, and finally develop WeChat Mini Program independently.
+Welcome to this Nanodegree Program for WeChat Mini Program Developer. In this program, you will master the design, development and testing of WeChat Mini Program, and finally develop WeChat Mini Program independently.
 
 ---
 
