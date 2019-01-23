@@ -1,7 +1,7 @@
 Page({
   data: {
     nowTemp: '14°',
-    nowWeather: 'cloudy day'
+    nowWeather: 'overcast'
   },
   onLoad() {
     wx.request({
