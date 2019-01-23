@@ -1,19 +1,18 @@
 # Weather API
 
-## Host
-https://test-miniprogram.com
+__Host:__ https://test-miniprogram.com
 
 ---
 
-### GET /api/weather/now
+__Endpoint:__  GET /api/weather/now
 
-#### Parameter
+__Parameter:__
 
 |   Name    |  Type  | Description | Required |
 |:--        |:--     |:--          |:--       |
 |   city    | String |   newyork   |    yes   |
 
-#### Return example
+__Response:__
 
 ```json
 {
@@ -75,16 +74,16 @@ https://test-miniprogram.com
 ```
 ---
 
-### GET /api/weather/future
+__Endpoint:__ GET /api/weather/future
 
-#### Parameter
+__Parameter:__
 
 |   Name    |    Type   |  Description  | Required |
 |:---       |:---       |:---           |:---      |
 |   city    | String    | newyork       |   yes    |
 |   time    | TimeStamp | 1548226988219 |   yes    |
 
-#### Return Example
+__Response:__
 
 ```json
 {
