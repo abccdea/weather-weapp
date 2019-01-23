@@ -9,7 +9,7 @@ https://test-miniprogram.com
 
 #### Parameter
 
-|   name    |  type  | description | Required |
+|   Name    |  Type  | Description | Required |
 |:--        |:--     |:--          |:--       |
 |   city    | String |   newyork   |    yes   |
 
@@ -79,7 +79,7 @@ https://test-miniprogram.com
 
 #### Parameter
 
-|   name    |    type   |  description  | Required |
+|   Name    |    Type   |  Description  | Required |
 |:---       |:---       |:---           |:---      |
 |   city    | String    | newyork       |   yes    |
 |   time    | TimeStamp | 1548226988219 |   yes    |
