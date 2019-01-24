@@ -18,6 +18,14 @@ const weatherColorMap = {
 
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js')
 
+const UNPROMPTED = 0
+const UNAUTHORIZED = 1
+const AUTHORIZED = 2
+
+const UNPROMPTED_TIPS = "click to get the current location"
+const UNAUTHORIZED_TIPS = "click to allow location permissions"
+const AUTHORIZED_TIPS = ""
+
 Page({
   data: {
     nowTemp: '',
@@ -27,7 +35,8 @@ Page({
     todayTemp: "",
     todayDate: "",
     city: 'New York',
-    locationTipsText: "click to get the current location"
+    locationTipsText: UNPROMPTED_TIPS,
+    locationAuthType: UNPROMPTED
   },
   onLoad() {
     this.qqmapsdk = new QQMapWX({
@@ -35,12 +44,12 @@ Page({
     })
     this.getNow()
   },
-  onPullDownRefresh(){
+  onPullDownRefresh() {
     this.getNow(() => {
       wx.stopPullDownRefresh()
     })
   },
-  getNow(callback){
+  getNow(callback) {
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
@@ -52,12 +61,12 @@ Page({
         this.setHourlyWeather(result)
         this.setToday(result)
       },
-      complete: () =>{
+      complete: () => {
         callback && callback()
       }
     })
   },
-  setNow(result){
+  setNow(result) {
     let temp = result.now.temp
     let weather = result.now.weather
     this.setData({
@@ -70,13 +79,13 @@ Page({
       backgroundColor: weatherColorMap[weather],
     })
   },
-  setHourlyWeather(result){
+  setHourlyWeather(result) {
     let forecast = result.forecast
     let hourlyWeather = []
     let nowHour = new Date().getHours()
     for (let i = 0; i < 8; i += 1) {
       hourlyWeather.push({
-        time: (i*3 + nowHour) % 24 + ":00",
+        time: (i * 3 + nowHour) % 24 + ":00",
         iconPath: '/images/' + forecast[i].weather + '-icon.png',
         temp: forecast[i].temp + '°'
       })
@@ -93,29 +102,41 @@ Page({
       todayDate: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} Today`
     })
   },
-  onTapDayWeather(){
+  onTapDayWeather() {
     wx.navigateTo({
       url: '/pages/list/list?city=' + this.data.city,
     })
   },
-  onTapLocation(){
+  onTapLocation() {
+    this.getLocation()
+  },
+  getLocation() {
     wx.getLocation({
-      success: res=>{
+      success: res => {
+        this.setData({
+          locationAuthType: AUTHORIZED,
+          locationTipsText: AUTHORIZED_TIPS
+        })
         this.qqmapsdk.reverseGeocoder({
           location: {
             latitude: res.latitude,
             longitude: res.longitude
           },
-          success: res=>{
+          success: res => {
             let city = res.result.address_component.city
             this.setData({
-              city:city,
-              locationTipsText: ""
+              city: city,
             })
             this.getNow()
           }
         })
       },
+      fail: () => {
+        this.setData({
+          locationAuthType: UNAUTHORIZED,
+          locationTipsText: UNAUTHORIZED_TIPS
+        })
+      }
     })
   }
 })
