@@ -25,7 +25,9 @@ Page({
     nowWeatherBackground: "",
     hourlyWeather: [],
     todayTemp: "",
-    todayDate: ""
+    todayDate: "",
+    city: 'New York',
+    locationTipsText: "click to get the current location"
   },
   onLoad() {
     this.qqmapsdk = new QQMapWX({
@@ -42,7 +44,7 @@ Page({
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now',
       data: {
-        city: 'newyork'
+        city: this.data.city
       },
       success: res => {
         let result = res.data.result
@@ -106,7 +108,11 @@ Page({
           },
           success: res=>{
             let city = res.result.address_component.city
-            console.log(city)
+            this.setData({
+              city:city,
+              locationTipsText: ""
+            })
+            this.getNow()
           }
         })
       },
