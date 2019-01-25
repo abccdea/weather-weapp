@@ -119,7 +119,16 @@ Page({
     })
   },
   onTapLocation() {
-    this.getCityAndWeather()
+    if (this.data.locationAuthType === UNAUTHORIZED)
+    wx.openSetting({
+      success: res => {
+        if (res.authSetting['scope.userLocation']) {
+          this.getCityAndWeather()
+        }
+      }
+    })
+    else
+      this.getCityAndWeather()
   },
   getCityAndWeather() {
     wx.getLocation({
