@@ -1,10 +1,10 @@
 const weatherMap = {
-  'sunny': 'sunny',
-  'cloudy': 'cloudy',
-  'overcast': 'overcast',
-  'lightrain': 'lightrain',
-  'heavyrain': 'heavyrain',
-  'snow': 'snow'
+  'sunny': 'Sunny',
+  'cloudy': 'Cloudy',
+  'overcast': 'Overcast',
+  'lightrain': 'Lightrain',
+  'heavyrain': 'Heavyrain',
+  'snow': 'Snow'
 }
 
 const weatherColorMap = {
@@ -22,10 +22,6 @@ const UNPROMPTED = 0
 const UNAUTHORIZED = 1
 const AUTHORIZED = 2
 
-const UNPROMPTED_TIPS = "click to get the current location"
-const UNAUTHORIZED_TIPS = "click to allow location permissions"
-const AUTHORIZED_TIPS = ""
-
 Page({
   data: {
     nowTemp: '',
@@ -35,7 +31,6 @@ Page({
     todayTemp: "",
     todayDate: "",
     city: 'New York',
-    locationTipsText: UNPROMPTED_TIPS,
     locationAuthType: UNPROMPTED
   },
   onLoad() {
@@ -45,13 +40,9 @@ Page({
     wx.getSetting({
       success: res => {
         let auth = res.authSetting['scope.userLocation']
-        let locationAuthType = auth ? AUTHORIZED
-          : (auth === false) ? UNAUTHORIZED : UNPROMPTED
-        let locationTipsText = auth ? AUTHORIZED_TIPS
-          : (auth === false) ? UNAUTHORIZED_TIPS : UNPROMPTED_TIPS
         this.setData({
-          locationAuthType: locationAuthType,
-          locationTipsText: locationTipsText
+          locationAuthType: auth ? AUTHORIZED
+            : (auth === false) ? UNAUTHORIZED : UNPROMPTED
         })
 
         if (auth)
@@ -135,7 +126,6 @@ Page({
       success: res => {
         this.setData({
           locationAuthType: AUTHORIZED,
-          locationTipsText: AUTHORIZED_TIPS
         })
         this.qqmapsdk.reverseGeocoder({
           location: {
@@ -154,7 +144,6 @@ Page({
       fail: () => {
         this.setData({
           locationAuthType: UNAUTHORIZED,
-          locationTipsText: UNAUTHORIZED_TIPS
         })
       }
     })
