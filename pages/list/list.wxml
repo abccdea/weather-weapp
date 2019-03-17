@@ -1,4 +1,4 @@
-<view class='date-item' wx:for="{{weekWeather}}">
+<view class='date-item' wx:for="{{weekWeather}}" wx:key="{{item.day}}">
   <view class="date-wrapper">
     <view class="day">{{item.day}}</view>
     <view class="date">{{item.date}}</view>

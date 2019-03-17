@@ -8,8 +8,8 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.93",
-	"appid": "touristappid",
+	"libVersion": "2.6.2",
+	"appid": "appid",
 	"projectname": "weather",
 	"condition": {
 		"search": {
