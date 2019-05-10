@@ -3,6 +3,11 @@
     "pages/index/index",
     "pages/list/list"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "Your location information will be used by this program."
+    }
+  },
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
@@ -10,10 +15,5 @@
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true
   },
-  "sitemapLocation": "sitemap.json",
-  "permission": {
-    "scope.userLocation": {
-      "desc": "Your location will be used"
-    }
-  }
+  "sitemapLocation": "sitemap.json"
 }

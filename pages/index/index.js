@@ -1,10 +1,10 @@
 const weatherMap = {
-  'sunny': 'Sunny',
-  'cloudy': 'Cloudy',
-  'overcast': 'Overcast',
-  'lightrain': 'Lightrain',
-  'heavyrain': 'Heavyrain',
-  'snow': 'Snow'
+  'sunny': 'sunny',
+  'cloudy': 'cloudy',
+  'overcast': 'overcast',
+  'lightrain': 'lightrain',
+  'heavyrain': 'heavyrain',
+  'snow': 'snow'
 }
 
 const weatherColorMap = {
@@ -15,8 +15,6 @@ const weatherColorMap = {
   'heavyrain': '#c5ccd0',
   'snow': '#aae1fc'
 }
-
-const QQMapWX = require('../../libs/qqmap-wx-jssdk.js')
 
 const UNPROMPTED = 0
 const UNAUTHORIZED = 1
@@ -34,9 +32,6 @@ Page({
     locationAuthType: UNPROMPTED
   },
   onLoad() {
-    this.qqmapsdk = new QQMapWX({
-      key: 'EAXBZ-33R3X-AA64F-7FIPQ-BY27J-5UF5B'
-    })
     wx.getSetting({
       success: res => {
         let auth = res.authSetting['scope.userLocation']
@@ -50,7 +45,7 @@ Page({
         else
           this.getNow() // default city - New York
       },
-      fail: ()=>{
+      fail: () => {
         this.getNow() // default city - New York
       }
     })
@@ -110,7 +105,7 @@ Page({
     let date = new Date()
     this.setData({
       todayTemp: `${result.today.minTemp}° - ${result.today.maxTemp}°`,
-      todayDate: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} Today`
+      todayDate: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} Today`
     })
   },
   onTapDayWeather() {
@@ -119,41 +114,53 @@ Page({
     })
   },
   onTapLocation() {
-    if (this.data.locationAuthType === UNAUTHORIZED)
-    wx.openSetting({
-      success: res => {
-        if (res.authSetting['scope.userLocation']) {
-          this.getCityAndWeather()
+    if (this.data.locationAuthType === UNAUTHORIZED) {
+      wx.openSetting({
+        success: res => {
+          let auth = res.authSetting["scope.userLocation"]
+          if (auth) {
+            this.getCityAndWeather()
+          }
         }
-      }
-    })
-    else
+      })
+    } else {
       this.getCityAndWeather()
+    }
   },
   getCityAndWeather() {
     wx.getLocation({
       success: res => {
         this.setData({
-          locationAuthType: AUTHORIZED,
+          locationAuthType: AUTHORIZED
         })
-        this.qqmapsdk.reverseGeocoder({
-          location: {
-            latitude: res.latitude,
-            longitude: res.longitude
-          },
-          success: res => {
-            let city = res.result.address_component.city
-            this.setData({
-              city: city,
-            })
-            this.getNow()
-          }
-        })
+        this.reverseGeocoder(res.latitude, res.longitude)
       },
       fail: () => {
         this.setData({
-          locationAuthType: UNAUTHORIZED,
+          locationAuthType: UNAUTHORIZED
         })
+      }
+    })
+  },
+  reverseGeocoder(lat, lon) {
+    var that = this;
+    wx.request({
+      url: 'https://nominatim.openstreetmap.org/reverse',
+      data: {
+        format: "json",
+        lat: lat,
+        lon: lon,
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success(res) {
+        let city = res.data.address.city;
+        that.setData({
+          city: city,
+          locationTipsText: ""
+        })
+        that.getNow()
       }
     })
   }

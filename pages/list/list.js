@@ -1,7 +1,7 @@
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 Page({
-  data: {
+  date: {
     weekWeather: [],
     city: 'newyork'
   },
